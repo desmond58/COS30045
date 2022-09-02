@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"	content="Data Visualisation Exercise 1"/>
+	<meta name="keywords"		content="HTML, CSS"/>
+	<meta name="author"			content="Your name here"/>
+
+	<title>Task 2.1 D3 Data Binding</title>
+	<!--Insert description of exercise  -->
+	<script src="https://d3js.org/d3.v7.min.js"></script>	
+	<style>
+		h1{
+			font-family: Arial, Helvetica, sans-serif;
+			color:rgb(51, 230, 114);
+		}
+		p{
+			color:rgb(236, 4, 253);
+		}
+	</style>
+</head>
+<body>
+	<h1>Creating and Formatting Paragraph Elements with D3</h1>
+	<script>
+
+	var dataset = [14, 5, 26, 23, 9];
+
+		d3.select("body").selectAll("p")
+			.data(dataset)
+			.enter()
+     		.append("p")
+			.style("color", d =>{
+				if(d > 9){
+					return "red";
+				}else{
+					return "black"
+				}
+			})
+     		.text(function(d){
+				//console.log(d);
+				if(d > '9'){
+					return "Warning: Joe watched " + d + " cat videos today.";
+				}else{
+					return "Joe watched " + d + " cat videos today.";
+				}
+			});
+
+	</script>
+	<p>
+		Go to <a href="file:///C:/xampp/htdocs/COS30045/lab1.1.html">Lab 1</a>
+		<br>Lab task 2.2 <a href="file:///C:/xampp/htdocs/COS30045/lab2.2.html">Drawing with Data - Bar Chart</a>
+		<br>Lab task 2.3 <a href="file:///C:/xampp/htdocs/COS30045/lab2.3.html">Drawing with Data - Scatter Plot</a>
+	</p>
+	<footer style="color: gray;">COS30045 Data Visualisation <br> Semester 4 2022</footer>
+</body>
+</html>
