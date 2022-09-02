@@ -10,6 +10,8 @@
 	<title>Task 2.4 D3 Load CSV</title>
 	<!--Insert description of exercise  -->
 	<script src="https://d3js.org/d3.v7.min.js"></script>	
+	<script src="Task_2.4.js"></script>	
+
 	<style>
 		h1{
 			font-family: Arial, Helvetica, sans-serif;
@@ -26,57 +28,12 @@
 <body>
 	<h1>D3 Load CSV file</h1>
 
-	<script>
-		var w = 500;
-		var h = 100;
-		var barPadding = 2;
 
-		d3.csv("Task_2.4_data.csv").then(function(data){
-			console.log(data);
-			dataset = data;
-
-			barChart(dataset)
-		})
-
-		var svg = d3.select("body")
-					.append("svg")
-					.attr("width", w)
-					.attr("height", h);
-
-		function barChart(){
-			svg.selectAll("rect")
-			.data(dataset)
-			.enter()
-			.append("rect")
-			.style("fill", d =>{
-				console.log("d = " + d.datasets);
-				if(d.datasets <= 40){
-					return "#ADD8E6"
-				}else if(d.datasets >= 80){
-					return "#00008B";
-				}else{
-					return "#0000FF"
-				}
-			})
-			.attr("x", function(d,i){
-				return i*(w/dataset.length)
-			})
-			.attr("y", function (d){ 
-				return h-(d.datasets)
-			})
-			.attr("width", function (d){ 
-				return w/dataset.length - barPadding
-			})
-			.attr("height", function (d){ 
-				return d.datasets
-			});
-		}
-
-	</script>
 	<p id="chart"></p>
 	<p>
 		Go to <a href="file:///C:/xampp/htdocs/COS30045/lab1.1.html">Lab 1</a>
 		<br>Lab task 2.1 <a href="file:///C:/xampp/htdocs/COS30045/lab2.1.html">D3 Data Binding</a>
+		<br>Lab task 2.2 <a href="file:///C:/xampp/htdocs/COS30045/lab2.2.html">Drawing with Data - Bar Chart</a>
 		<br>Lab task 2.3 <a href="file:///C:/xampp/htdocs/COS30045/lab2.3.html">Drawing with Data - Scatter Plot</a>
 	</p>
 	<footer style="color: gray;">COS30045 Data Visualisation <br> Semester 4 2022</footer>
