@@ -51,11 +51,11 @@
 			.style("fill", d =>{
 				console.log("d = " + d.datasets);
 				if(d.datasets <= 40){
-					return "#0000FF"
+					return "#ADD8E6"
 				}else if(d.datasets >= 80){
 					return "#00008B";
 				}else{
-					return "#ADD8E6"
+					return "#0000FF"
 				}
 			})
 			.attr("x", function(d,i){
