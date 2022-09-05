@@ -18,7 +18,7 @@ function init(){
                     .domain([100,500])
                     .range([10,350]);
 
-	var svg = d3.select("body")
+	var svg = d3.select("#chart")
 				.append("svg")
 				.attr("width", w)
 				.attr("height", h);
