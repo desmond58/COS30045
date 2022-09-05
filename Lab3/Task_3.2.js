@@ -1,8 +1,8 @@
 function init(){
     var w = 600;
-	var h = 100;
+	var h = 200;
 	//var barPadding = 2;
-    var padding = 20;
+    var padding = 30;
 	var dataset =  [[5, 20], 
 					[500, 90], 
 					[250, 50], 
@@ -37,9 +37,6 @@ function init(){
 				.append("svg")
 				.attr("width", w)
 				.attr("height", h);
-
-    var xAsis = d3.axisBottom()
-                    .scale(xScale);
 	
 	svg.selectAll("circle")
 		.data(dataset)
@@ -51,7 +48,7 @@ function init(){
 		.attr("cy", function (d){ 
 			return yScale(d[1]);
 		})
-		.attr("r", 5)
+		.attr("r", 3)
 		.attr("fill", function(d){
 			if(d[0] == 500){
 				return "red";
@@ -73,6 +70,19 @@ function init(){
 		.attr("y", function (d) {
 			return yScale(d[1]);
 		})
-        .attr("font-size", "13");
+        .attr("font-size", "12");
+
+    var xAxis = d3.axisBottom()
+                    .scale(xScale);
+    var yAxis = d3.axisLeft()
+                    .scale(yScale);
+
+    svg.append("g")
+        .attr("transform","translate(0, " + (h-padding+10)+")")
+        .call(xAxis);
+
+    svg.append("g")
+    .attr("transform","translate(" + (padding)+",0)")
+    .call(yAxis);
 }
 window.onload = init;
