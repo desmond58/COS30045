@@ -1,10 +1,10 @@
 function init(){
-	var w = 500;
+	var w = 600;
 	var h = 100;
 	//var barPadding = 2;
-    var padding = 2;
+    var padding = 20;
 	var dataset =  [[5, 20], 
-					[480, 90], 
+					[500, 90], 
 					[250, 50], 
 					[100, 33], 
 					[330, 95], 
@@ -15,15 +15,6 @@ function init(){
 					[220, 88] 
 					];
 	
-    var scale = d3.scaleLinear()
-                    .domain([d3.min(dataset, function(d){
-                        return d[0];
-                    }),
-                    d3.max(dataset, function(d){
-                        return d[0];
-                    })])
-                    .range([0,w]);
-
     var xScale = d3.scaleLinear()
                     .domain([d3.min(dataset, function(d){
                         return d[0];
@@ -31,7 +22,18 @@ function init(){
                     d3.max(dataset, function(d){
                         return d[0];
                     })])
-                    .range([padding, w - padding]);
+                    .range([padding, w - padding * 2]);
+
+    var yScale = d3.scaleLinear()
+                    .domain([d3.min(dataset, function(d){
+                        return d[1];
+                    }),
+                    d3.max(dataset, function(d){
+                        return d[1];
+                    })])
+                    .range([h - padding, padding]);
+                   
+                    
 	var svg = d3.select("#chart")
 				.append("svg")
 				.attr("width", w)
@@ -49,7 +51,7 @@ function init(){
 		})
 		.attr("r", 5)
 		.attr("fill", function(d){
-			if(d[0] == 480){
+			if(d[0] == 500){
 				return "red";
 			}else{
 				return "slategrey";
@@ -64,11 +66,12 @@ function init(){
 			return d[0] + "," + d[1];
 		})
 		.attr("x", function (d) {
-			return d[0];
+			return xScale(d[0]);
 		})
 		.attr("y", function (d) {
-			return d[1];
-		});
+			return yScale(d[1]);
+		})
+        .attr("font-size", "13");
 }
 
 window.onload = init;
