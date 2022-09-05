@@ -2,6 +2,7 @@ function init(){
 	var w = 500;
 	var h = 100;
 	//var barPadding = 2;
+    var padding = 2;
 	var dataset =  [[5, 20], 
 					[480, 90], 
 					[250, 50], 
@@ -15,9 +16,22 @@ function init(){
 					];
 	
     var scale = d3.scaleLinear()
-                    .domain([100,500])
-                    .range([10,350]);
+                    .domain([d3.min(dataset, function(d){
+                        return d[0];
+                    }),
+                    d3.max(dataset, function(d){
+                        return d[0];
+                    })])
+                    .range([0,w]);
 
+    var xScale = d3.scaleLinear()
+                    .domain([d3.min(dataset, function(d){
+                        return d[0];
+                    }),
+                    d3.max(dataset, function(d){
+                        return d[0];
+                    })])
+                    .range([padding, w - padding]);
 	var svg = d3.select("#chart")
 				.append("svg")
 				.attr("width", w)
@@ -28,10 +42,10 @@ function init(){
 		.enter()
 		.append("circle")
 		.attr("cx", function(d,i){
-			return d[0];
+			return xScale(d[0]);
 		})
 		.attr("cy", function (d){ 
-			return d[1];
+			return yScale(d[1]);
 		})
 		.attr("r", 5)
 		.attr("fill", function(d){
