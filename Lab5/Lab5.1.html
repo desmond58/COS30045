@@ -57,11 +57,14 @@
 			return h-yScale(d);
 		})
 		.attr("width", function (d){ 
-			return w/dataset.length - barPadding;
+			return xScale.bandwidth() - barPadding;
 		})
 		.attr("height", function (d){ 
 			return d;
 		});
+
+		d3.select("button")
+		   .onclick
 	</script>
 	<p>
 		Go to <a href="/index.html">Lab 1</a>
