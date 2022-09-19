@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"	content="Data Visualisation Exercise 1"/>
+	<meta name="keywords"		content="HTML, CSS"/>
+	<meta name="author"			content="Your name here"/>
+
+	<title>Task 2.2 D3 Drawing with Data - Bar Chart</title>
+	<!--Insert description of exercise  -->
+	<script src="https://d3js.org/d3.v7.min.js"></script>	
+	<style>
+		h1{
+			font-family: Arial, Helvetica, sans-serif;
+			color:rgb(51, 230, 114);
+		}
+		rect{
+			fill: grey;
+		}
+		p{
+			color:rgb(236, 4, 253);
+		}
+	</style>
+</head>
+<body>
+	<h1>Drawing with Data - Bar Chart</h1>
+
+	<script>
+	var w = 500;
+	var h = 100;
+	var barPadding = 2;
+	var dataset = [60, 5, 26, 63, 20, 10, 72, 100];
+	
+	var xScale = d3.scaleBand()
+					.domain(d3.range(dataset.length))
+					.rangeBound([0,w])
+					.paddingInner([0,0.5])
+	
+	var yScale = d3.scaleLinear()
+					.domain([0, d3.max(dataset)])
+					.range([0,h])
+					
+	var svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+	
+	svg.selectAll("rect")
+		.data(dataset)
+		.enter()
+		.append("rect")
+		.attr("x", function(d,i){
+			return xScale(i);
+		})
+		.attr("y", function (d){ 
+			return h-yScale(d);
+		})
+		.attr("width", function (d){ 
+			return w/dataset.length - barPadding;
+		})
+		.attr("height", function (d){ 
+			return d;
+		});
+	</script>
+	<p>
+		Go to <a href="/index.html">Lab 1</a>
+		<br>Lab task 2.1 <a href="/lab2.1.html">D3 Data Binding</a>
+		<br>Lab task 2.3 <a href="/lab2.3.html">Drawing with Data - Scatter Plot</a>
+		<br>Lab task 2.4 <a href="/Lab2.4.html">D3 Load CSV</a>
+	</p>
+	<footer style="color: gray;">COS30045 Data Visualisation <br> Semester 4 2022</footer>
+</body>
+</html>
