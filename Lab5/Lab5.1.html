@@ -7,16 +7,15 @@
 	<meta name="keywords"		content="HTML, CSS"/>
 	<meta name="author"			content="Your name here"/>
 
-	<title>Task 2.2 D3 Drawing with Data - Bar Chart</title>
+	<title>Task 5.1 D3 Updating the data </title>
 	<!--Insert description of exercise  -->
 	<script src="https://d3js.org/d3.v7.min.js"></script>	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
 	<style>
 		h1{
 			font-family: Arial, Helvetica, sans-serif;
 			color:rgb(51, 230, 114);
-		}
-		rect{
-			fill: grey;
 		}
 		p{
 			color:rgb(236, 4, 253);
@@ -24,22 +23,23 @@
 	</style>
 </head>
 <body>
-	<h1>Drawing with Data - Bar Chart</h1>
+	<h1>D3 Updating the data </h1>
 
 	<script>
-	var w = 500;
-	var h = 100;
+	var w = 650;
+	var h = 250;
 	var barPadding = 2;
-	var dataset = [60, 5, 26, 63, 20, 10, 72, 100];
+	var dataset = [60, 5, 26, 63, 20, 10, 72, 100, 53, 58,
+					 34, 69, 14, 66, 88, 10, 32, 75, 23, 87];
 	
 	var xScale = d3.scaleBand()
 					.domain(d3.range(dataset.length))
 					.rangeRound([0,w])
-					.paddingInner([0,0.5])
+					.paddingInner(0.05);
 	
 	var yScale = d3.scaleLinear()
 					.domain([0, d3.max(dataset)])
-					.range([0,h])
+					.range([0,h]);
 					
 	var svg = d3.select("body")
 				.append("svg")
@@ -50,27 +50,48 @@
 		.data(dataset)
 		.enter()
 		.append("rect")
+		.attr("fill", (d, i) => {
+                return `rgb(0,0,${Math.round(d * 10)})`
+    	})
 		.attr("x", function(d,i){
 			return xScale(i);
 		})
 		.attr("y", function (d){ 
 			return h-yScale(d);
 		})
-		.attr("width", function (d){ 
-			return xScale.bandwidth() - barPadding;
-		})
+		.attr("width", xScale.bandwidth())
 		.attr("height", function (d){ 
-			return d;
+			return yScale(d);
 		});
 
-		d3.select("button")
-		   .onclick
+
+	function update(){
+		var maxValue = 100;
+		var numValues = dataset.length;
+		dataset = [];
+		for (var i = 0; i < numValues; i++){
+			var newNumber = Math.floor(Math.random()* maxValue);
+			dataset.push(newNumber);
+		}
+		svg.selectAll("rect")
+			.data(dataset)
+			.attr("y", function (d){ 
+				return h-yScale(d);
+			})
+			.attr("height", function (d){ 
+				return yScale(d);	
+			})
+			.attr("fill", function(d){
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			});
+	}
 	</script>
+	
+	<br><br><button class="btn btn-success m-1" onclick="update()">Update</button><br>
 	<p>
-		Go to <a href="/index.html">Lab 1</a>
-		<br>Lab task 2.1 <a href="/lab2.1.html">D3 Data Binding</a>
-		<br>Lab task 2.3 <a href="/lab2.3.html">Drawing with Data - Scatter Plot</a>
-		<br>Lab task 2.4 <a href="/Lab2.4.html">D3 Load CSV</a>
+		Go to <a href="/index.html">Lab 1</a><a href="/lab2.1.html">,Lab 2</a><a href="/Lab3/Lab3.1.html">,Lab 3</a>
+		<br>Lab task 5.2 <a href="Lab5/Lab5.2.html">D3 Data Binding</a>
+
 	</p>
 	<footer style="color: gray;">COS30045 Data Visualisation <br> Semester 4 2022</footer>
 </body>
