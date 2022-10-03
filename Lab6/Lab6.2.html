@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="description"	content="Data Visualisation Exercise 1"/>
+	<meta name="keywords"		content="HTML, CSS"/>
+	<meta name="author"			content="Your name here"/>
+
+	<title>Task 6.1 D3 Interactivity - Sort</title>
+	<!--Insert description of exercise  -->
+	<script src="https://d3js.org/d3.v7.min.js"></script>	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	
+	<style>
+		h1{
+			font-family: Arial, Helvetica, sans-serif;
+			color:rgb(51, 230, 114);
+		}
+		p{
+			color:rgb(236, 4, 253);
+		}
+	</style>
+</head>
+<body>
+	<h1>D3 Interactivity - Sort</h1>
+
+	<script>
+	var sortOrder = false;
+
+	var w = 650;
+	var h = 250;
+	var barPadding = 2;
+	var dataset = [60, 5, 26, 63, 20, 10, 72, 10, 53, 58,
+					 34, 69, 14, 66, 88, 10, 32, 75, 23, 87];
+	var xScale = d3.scaleBand()
+					.domain(d3.range(dataset.length))
+					.rangeRound([0,w])
+					.paddingInner(0.05);
+	
+	var yScale = d3.scaleLinear()
+					.domain([0, d3.max(dataset)])
+					.range([0,h]);
+					
+	var svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+	
+	svg.selectAll("rect")
+		.data(dataset)
+		.enter()
+		.append("rect")
+		.attr("fill", (d, i) => {
+                return `rgb(0,0,${Math.round(d * 10)})`
+    	})
+		.attr("x", function(d,i){
+			return xScale(i);
+		})
+		.attr("y", function (d){ 
+			return h-yScale(d);
+		})
+		.attr("width", xScale.bandwidth())
+		.attr("height", function (d){ 
+			return yScale(d);
+		})
+		.on("mouseover", function(event, d){
+			var xPosition = parseFloat(d3.select(this).attr("x"))
+			var yPosition = parseFloat(d3.select(this).attr("y"))
+
+			svg.append("text")
+				.attr("id", "tooltip")
+				.attr("x", xPosition + 6)
+				.attr("y", yPosition + 20)
+				.attr("font-weight",function(d,i) {return 700;})
+				.text(d)
+				
+			d3.select(this)
+				.attr("fill", "orange")
+		})
+		.on("mouseout", function(d){
+			d3.select(this)
+				.transition()
+				.duration(250)
+				.attr("fill", (d, i) => {
+                return `rgb(0,0,${Math.round(d * 10)})`
+				})
+			d3.select("#tooltip").remove()
+		})
+		.append("title")
+		.text(function(d){
+			return "This value is " + d;
+		})
+		.transition("restoreBarColor");
+
+	function add(){
+		var maxValue = 100;
+		var newNumber = Math.floor(Math.random()* maxValue);
+		dataset.push(newNumber);
+		xScale.domain(d3.range(dataset.length));
+
+		var bars = svg.selectAll("rect")
+						.data(dataset)
+
+		bars.enter()
+			.append("rect")
+			.merge(bars)
+			.transition()
+			.duration(500)
+			.attr("x", function(d,i){
+				return xScale(i);
+			})
+			.attr("y", function(d){
+				return h - yScale(d);
+			})
+			.attr("width", xScale.bandwidth())
+			.attr("height", function(d){
+				return yScale(d);
+			})
+			.attr("fill", function(d){
+				return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			});
+	}
+
+	function remove(){
+		dataset.shift();
+
+		var bars = svg.selectAll("rect")
+						.data(dataset)
+		bars.exit()
+			.transition()
+			.duration(500)
+			.attr("x", w)
+			.remove()
+	}
+	function sort(){
+		
+		sortOrder = !sortOrder;
+		
+		svg.selectAll("rect")
+			.sort(function(a,b){
+				if (sortOrder){
+					return d3.ascending (a,b)
+			}else{
+				return d3.descending(a,b)
+			}})
+			.transition("sortBars")
+			.duration(1000)
+			.attr("x", function(d,i){
+				return xScale(i)
+			})
+			.delay(function(d,i){
+				return i * 50;
+			})
+	}
+	</script>
+	
+	<br><br><button class="btn btn-success m-1" onclick="add()">Add</button>
+	<button class="btn btn-danger m-1" onclick="remove()">Remove</button>
+	<button class="btn btn-info m-1" onclick="sort()">Sort</button>
+
+	<p>
+		Go to <a href="/index.html">Lab 1</a><a href="/lab2.1.html">, Lab 2</a><a href="/Lab3/Lab3.1.html">, Lab 3</a><a href="/Lab5/Lab5.1.html">, Lab 5</a><a href="/Lab6/Lab6.1.html">, Lab 6</a>
+		<br>Lab task 6.1 <a href="Lab6.1.html">D3 Interactivity - mouse over effects</a>
+	</p>
+	<footer style="color: gray;">COS30045 Data Visualisation <br> Semester 4 2022</footer>
+</body>
+</html>
