@@ -24,7 +24,7 @@
 			stroke-width: 0.5;
 		}
 		.area {
-			fill:rgb(230, 240, 249);
+			fill:#48D1CC ;
 		}
 	</style>
 </head>
@@ -70,8 +70,8 @@
 
 
 		area = d3.area()
-				.x(function(d){return xScale(d.date);})
-				.y0(function(){return yScale.range()[0];})
+				.x(function(d){return xScale(d.date) + 55;})
+				.y0(function(){return yScale.range()[0] - 20;})
 				.y1(function(d){return yScale(d.number);});
 
 		var svg = d3.select("#chart")
